@@ -6,145 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sitio con AJAX</title>
+  <link rel="stylesheet" href="./css/estilos.css">
 
-  <style>
-    /*RESET pag*/
-    html {
-      box-sizing: border-box;
-      font-family: sans-serif;
-      font-size: 16px;
-    }
 
-    *,
-    *::before,
-    *::after {
-      box-sizing: inherit;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /*formato todas las imagenes*/
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /*estiro el main tenga o no contenido*/
-    main {
-      flex-grow: 1;
-    }
-
-    /*no importa el tamaño de la pantalla, no se deformara mi pag, pero aplico esta clase al header, main y footer*/
-    .container {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 992px;
-    }
-
-    /*CABECERA*/
-    .header {
-      padding: 2rem;
-      background-color: antiquewhite;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo img {
-      width: 7rem;
-      height: auto;
-    }
-
-    .menu {
-      display: flex;
-      justify-content: space-between;
-      font-size: 115%;
-      /*  border: 1px solid #f00; */
-    }
-
-    .menu a {
-      /* border: 1px solid #00f; */
-      color: flex;
-      padding: 0 1vw;
-      transition: all .3s ease-in-out;
-    }
-
-    .menu a:hover {
-      opacity: .75;
-    }
-
-    /*MAIN*/
-  </style>
-  <script src="./assets2/include-html.js"></script>
+  <script src="./js/include-html.js"></script>
 </head>
 
 <body>
 
-  <div data-include="assets2/header.html"></div>
+  <div data-include="assets/header.html"></div>
 
   <main class="container"></main>
 
-  <div data-include="assets2/footer.html"></div>
+  <div data-include="assets/footer.html"></div>
 
-  <script>
-    const d = document;
-    const $main = d.querySelector('main');
-
-    /* no uso metodo ni data pq estoy pidiendo archivos q estan en el mismo servidor, con esta funcion obtengo el HTML de un archivo externo */
-    const getHTML = (options) => {
-      let { url, success, error } = options;//destructuracion
-      const xhr = new XMLHttpRequest();//instancio
-
-      xhr.addEventListener("readystatechange", (e) => {
-        if (xhr.readyState !== 4) return;
-
-        if (xhr.status >= 200 && xhr.status < 300) {
-          /* no tengo q parcear pq necesito es la cadena html */
-          let html = xhr.responseText;
-          success(html);
-          console.log(html)
-        } else {
-          let message = xhr.statusText || "Ocurrio un error";
-          error(`Error ${xhr.status}:${message}`);
-        }
-      });//end readystatechange
-
-      xhr.open("GET", url); //metodo
-      xhr.setRequestHeader("Content-type", "text/html; charset=utf-8"); //cabecera
-      xhr.send(); //queda asi pq n estoy solicitando datos sino el archivo
-
-    }//end getHTML
-
-    //CARGO EL HOME CUANDO INICIA DE MANERA DINAMICA
-    //cunado cargue el  enlace ya no tiene q llevar a ese archivo (no mas esto = http://127.0.0.1:5500/ajax-ejercicios/assets/home.html), sino traerme el contenido HTML q se encuentra en el, durante la carga del documento
-    d.addEventListener("DOMContentLoaded", (e) => {
-      getHTML({//objeto opciones, de la function q hice arriba
-        url: "./assets/home.html",
-        success: (html) => $main.innerHTML = html,//en el contenedor main, agregame el contenido del html q estoy trayendo
-        error: (err) => $main.innerHTML = `<h1>${err}</h1>`,
-      });
-    });
-
-    //LOS DEMAS ENLACES
-    d.addEventListener("click", (e) => {
-      if (e.target.matches(".menu a")) {//coincida con los enlacs del menu
-        e.preventDefault(); //freno todos los enlaces
-        getHTML({
-          url: e.target.href, //los elemntos q estan en el enlace
-          success: (html) => $main.innerHTML = html,
-          error: (err) => $main.innerHTML = `<h1>${err}</h1>`,
-        })
-      }
-    })
-  </script>
+  <script src="./js/include_paginas.js"></script>
 </body>
 
 </html>

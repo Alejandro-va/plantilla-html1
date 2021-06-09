@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", (e) => {
   const includeHTML = (el, url) => {
-    console.log("el: ",el, "- url: ", url)
+    //console.log("el: ",el, "- url: ", url)
     //PASO A
     const xhr = new XMLHttpRequest();//instancio
 
